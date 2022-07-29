@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config.from_object(Config())
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
     items = get_items()
     completed_items = [item for item in items if item['complete']]
@@ -25,29 +25,23 @@ def add_new_task():
 
     return redirect('/')
 
-@app.route('/complete/<id>', methods=['POST'])
+@app.route('/task/complete/<id>', methods=['POST'])
 def complete(id):
-    print(id)
-
     item = get_item(id)
-
     item['complete'] = True
-
     save_item(item)
 
     return redirect('/')
 
-@app.route('/uncomplete/<id>', methods=['POST'])
+@app.route('/task/uncomplete/<id>', methods=['POST'])
 def uncomplete(id):
     item = get_item(id)
-
     item['complete'] = False
-
     save_item(item)
 
     return redirect('/')
 
-@app.route('/delete/<id>', methods=['POST'])
+@app.route('/task/delete/<id>', methods=['POST'])
 def delete(id):
     delete_item(int(id))
 

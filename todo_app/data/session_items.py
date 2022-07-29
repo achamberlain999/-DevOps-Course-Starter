@@ -1,7 +1,7 @@
 from flask import session
 
 _DEFAULT_ITEMS = [
-    { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items', 'complete': False, 'description': 'A task!' },
+    { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items', 'complete': False, 'description': 'Show the tasks on the homepage' },
     { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added', 'complete': True }
 ]
 
@@ -43,7 +43,6 @@ def add_item(title, description):
     items = get_items()
 
     # Determine the ID for the item based on that of the previously added item
-    # id = items[-1]['id'] + 1 if items else 0
     id = max([item['id'] for item in items]) + 1 if items else 0
 
     item = { 'id': id, 'title': title, 'description': description, 'status': 'Not Started', 'complete': False }
@@ -75,14 +74,9 @@ def delete_item(id):
 
     Args:
         id: The ID of the item.
-
-    Returns:
-        item: None.
     """
 
     existing_items = get_items()
-    print(existing_items)
     updated_items = [existing_item for existing_item in existing_items if existing_item['id'] != id]
-    print(updated_items)
 
     session['items'] = updated_items

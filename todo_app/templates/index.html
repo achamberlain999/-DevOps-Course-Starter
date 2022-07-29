@@ -13,18 +13,19 @@
     <form action="/task" method="post">
 
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="new_task_title">Title</label>
-          <input type="text" name="new_task_title" class="form-control" placeholder="e.g. Complete DevOps coursework...">
+          <input type="text" name="new_task_title" class="form-control"
+            placeholder="e.g. Complete DevOps coursework...">
         </div>
-        
-        <div class="form-group col">
+
+        <div class="form-group col-sm">
           <label for="new_task_description">Description</label>
           <input type="text" name="new_task_description" class="form-control" placeholder="e.g. Complete exercise 1...">
           <small class="form-text text-muted">This can be left blank.</small>
         </div>
-        
-        <div class="col-1 d-flex justify-content-center align-items-center" style="padding: 0 0 8px 0">
+
+        <div class="col-sm-1 d-flex justify-content-center align-items-center" style="padding: 0 0 8px 0">
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </div>
@@ -33,78 +34,82 @@
 
 <hr />
 
-<div class="row" style="padding-bottom: 20vh;">
-  <div class="col-md-12">
-    <h2 style="margin: 0 0 20px">Tasks</h2>
-    <ul class="list-group mb-4">
-      <form action="/" method="post">
+<h2 style="margin: 0 0 20px">Tasks</h2>
 
-        <div class="row">
-          <div class="col">
-            <h5>Open</h5>
-            {% if not uncompleted_items %}
-            {% if completed_items %}
-            <p class="text-secondary" style="margin: 20px 0">Hurrah! Looks like it's pub time 🍻</p>
-            {% else %}
-            <p class="text-secondary" style="margin: 20px 0">Time to start adding some tasks! ⏰</p>
+<form action="/" method="post">
+
+  <div class="row">
+    <div class="col-sm">
+      <h5>Open</h5>
+      {% if not uncompleted_items %}
+      {% if completed_items %}
+      <p class="text-secondary" style="margin: 20px 0">Hurrah! Looks like it's pub time 🍻</p>
+      {% else %}
+      <p class="text-secondary" style="margin: 20px 0">Time to start adding some tasks! ⏰</p>
+      {% endif %}
+      {% endif %}
+
+
+      <ul class="list-group mb-4">
+        {% for item in uncompleted_items %}
+
+        <div class="container border rounded d-flex justify-content-between align-items-center"
+          style="padding: 20px; margin: 10px 0">
+          <div class="d-flex flex-column">
+
+            <label for="{{ item.id }}" class="font-weight-bold">{{ item.title }}</label>
+            {% if item.description %}
+            <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
             {% endif %}
-            {% endif %}
-
-
-            {% for item in uncompleted_items %}
-            <div class="container border rounded d-flex justify-content-between align-items-center"
-              style="padding: 20px; margin: 20px 0">
-              <div class="d-flex flex-column">
-
-                <label for="{{ item.id }}" class="font-weight-bold">{{ item.title }}</label>
-                {% if item.description %}
-                <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
-                {% endif %}
-              </div>
-
-              <div>
-                <button class="btn btn-outline-success" formaction="/complete/{{ item.id }}">Complete</button>
-                <button class="btn btn-outline-danger" formaction="/delete/{{ item.id }}">Delete</button>
-              </div>
-            </div>
-            {% endfor %}
-
           </div>
 
-          <hr />
-
-          <div class="col">
-
-            <h5>Done</h5>
-            {% if not completed_items %}
-              {% if uncompleted_items %}
-                <p class="text-secondary" style="margin: 20px 0">Better knuckle down. Looks like you've got some work to do 💻</p>
-              {% else %}
-                <p class="text-secondary" style="margin: 20px 0">Time to start adding some tasks! ⏰</p>
-              {% endif %}
-            {% endif %}
-
-            {% for item in completed_items %}
-            <div class="container border rounded d-flex justify-content-between align-items-center" style="padding: 20px; margin: 20px 0">
-              <div class="d-flex flex-column">
-
-                <label for="{{ item.id }}" class="font-weight-bold">{{ item.title }}</label>
-                {% if item.description %}
-                  <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
-                {% endif %}
-              </div>
-
-              <div>
-                <button class="btn btn-success" formaction="/uncomplete/{{ item.id }}">Task completed</button>
-                <button class="btn btn-outline-danger" formaction="/delete/{{ item.id }}">Delete</button>
-              </div>
-            </div>
-            {% endfor %}
+          <div>
+            <button class="btn btn-outline-success" formaction="/task/complete/{{ item.id }}">Complete</button>
+            <button class="btn btn-outline-danger" formaction="/task/delete/{{ item.id }}">Delete</button>
           </div>
         </div>
-      </form>
-    </ul>
+        {% endfor %}
+      </ul>
+
+    </div>
+
+    <hr />
+
+    <div class="col-sm">
+
+      <h5>Done</h5>
+      <ul class="list-group mb-4">
+        {% if not completed_items %}
+        {% if uncompleted_items %}
+        <p class="text-secondary" style="margin: 20px 0">Looks like you've got some work to do. Better knuckle down 💻
+        </p>
+        {% else %}
+        <p class="text-secondary" style="margin: 20px 0">Time to start adding some tasks! ⏰</p>
+        {% endif %}
+        {% endif %}
+
+        {% for item in completed_items %}
+        <div class="container border rounded d-flex justify-content-between align-items-center"
+          style="padding: 20px; margin: 10px 0">
+          <div class="d-flex flex-column">
+
+            <label for="{{ item.id }}" class="font-weight-bold">{{ item.title }}</label>
+            {% if item.description %}
+            <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
+            {% endif %}
+          </div>
+
+          <div>
+            <button class="btn btn-success" formaction="/task/uncomplete/{{ item.id }}">Task completed</button>
+            <button class="btn btn-outline-danger" formaction="/task/delete/{{ item.id }}">Delete</button>
+          </div>
+        </div>
+        {% endfor %}
+      </ul>
+
+    </div>
+
   </div>
-</div>
+</form>
 
 {% endblock %}
