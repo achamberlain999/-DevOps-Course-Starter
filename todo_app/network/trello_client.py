@@ -2,7 +2,6 @@ import os
 import requests
 
 BOARD_ID = os.getenv('TRELLO_BOARD_ID')
-TODO_LIST_ID = False
 
 LIST_IDS = {
     'Open': False,
@@ -21,16 +20,6 @@ def get_list_ids():
 
 get_list_ids()
 
-def get_lists():
-    url = url_builder(f"/boards/{BOARD_ID}/lists")
-    r = requests.get(url)
-    return r.json()
-
-def get_cards_in_list(list_id):
-    url = url_builder(f"/lists/{list_id}/cards")
-    r = requests.get(url)
-    return r.json()
-
 def get_trello_lists_with_cards():
     payload = {
         'cards': 'open'
@@ -39,18 +28,18 @@ def get_trello_lists_with_cards():
     r = requests.get(url, params=payload)
     return r.json()
 
-def add_item_to_list(item):
+def add_item_to_list(title, description):
     url = url_builder(f"/cards")
     payload = {
-        'name': item['title'],
-        'desc': item['description'],
+        'name': title,
+        'desc': description,
         'idList': LIST_IDS['Open']
     }
     r = requests.post(url, params=payload)
     return r.json()
 
 def complete_card(id):
-    url = url_builder(F"/cards/{id}")
+    url = url_builder(f"/cards/{id}")
     payload = {
         'idList': LIST_IDS['Done']
     }
@@ -58,7 +47,7 @@ def complete_card(id):
     return r.json()
 
 def uncomplete_card(id):
-    url = url_builder(F"/cards/{id}")
+    url = url_builder(f"/cards/{id}")
     payload = {
         'idList': LIST_IDS['Open']
     }

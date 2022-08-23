@@ -12,11 +12,7 @@ def get_items():
     return items
 
 def add_item(title, description):
-    item = { 'title': title, 'description': description, 'status': 'Not Started', 'complete': False }
-
-    add_item_to_list(item)
-
-    return item
+    add_item_to_list(title, description)
 
 def complete_item(id):
     complete_card(id)
