@@ -32,7 +32,20 @@ You'll also need to clone a new `.env` file from the `.env.template` to store lo
 $ cp .env.template .env  # (first time only)
 ```
 
-The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
+The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie. You should update the secret key in `.env` to a random guid.
+
+## Trello
+
+The app uses Trello as a 'database' to store cards.
+
+1. [Sign up](https://trello.com/signup) for Trello if you don't already have an account
+1. Get your [API_KEY](https://trello.com/app-key) and set it in `.env` as `TRELLO_API_KEY`
+1. On the same page, generate an API_TOKEN and set it in `.env` as `TRELLO_API_TOKEN`
+1. Then you'll need to create a board called `DevOps` in the Trello web app and get the boardId using
+```
+curl https://api.trello.com/1/members/me/boards?fields=name,url&key=API_KEY&token=API_TOKEN
+```
+1. Lastly set this boardId in `.env` as `TRELLO_BOARD_ID`
 
 ## Running the App
 
