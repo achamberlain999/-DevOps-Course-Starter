@@ -1,4 +1,4 @@
-from todo_app.network.trello_client import get_trello_lists_with_cards, add_item_to_list
+from todo_app.network.trello_client import get_trello_lists_with_cards, add_item_to_list, delete_card, complete_card, uncomplete_card
 
 
 def get_items():
@@ -25,17 +25,11 @@ def add_item(title, description):
 
     return item
 
+def complete_item(id):
+    complete_card(id)
 
-def save_item(item):
-    existing_items = get_items()
-    updated_items = [item if item['id'] == existing_item['id'] else existing_item for existing_item in existing_items]
-
-    session['items'] = updated_items
-
-    return item
+def uncomplete_item(id):
+    uncomplete_card(id)
 
 def delete_item(id):
-    existing_items = get_items()
-    updated_items = [existing_item for existing_item in existing_items if existing_item['id'] != id]
-
-    session['items'] = updated_items
+    delete_card(id)

@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from todo_app.data.session_items import get_item, save_item, delete_item
-from todo_app.data.trello_items import get_items, add_item
+from todo_app.data.trello_items import complete_item, get_items, add_item, uncomplete_item, delete_item
 
 from todo_app.flask_config import Config
+from todo_app.network.trello_client import complete_card
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -28,22 +28,18 @@ def add_new_task():
 
 @app.route('/task/complete/<id>', methods=['POST'])
 def complete(id):
-    item = get_item(id)
-    item['complete'] = True
-    save_item(item)
+    complete_item(id)
 
     return redirect('/')
 
 @app.route('/task/uncomplete/<id>', methods=['POST'])
 def uncomplete(id):
-    item = get_item(id)
-    item['complete'] = False
-    save_item(item)
+    uncomplete_item(id)
 
     return redirect('/')
 
 @app.route('/task/delete/<id>', methods=['POST'])
 def delete(id):
-    delete_item(int(id))
+    delete_item(id)
 
     return redirect('/')
