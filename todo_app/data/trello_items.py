@@ -1,4 +1,4 @@
-from todo_app.network.trello_client import get_trello_lists_with_cards
+from todo_app.network.trello_client import get_trello_lists_with_cards, add_item_to_list
 
 
 def get_items():
@@ -10,6 +10,7 @@ def get_items():
         for card in list['cards']:
             print(card)
             items.append({
+                'id': card['id'],
                 'title': card['name'],
                 'description': card['desc'],
                 'complete': list_name == "Done"
@@ -18,16 +19,9 @@ def get_items():
     return items
 
 def add_item(title, description):
-    items = get_items()
+    item = { 'title': title, 'description': description, 'status': 'Not Started', 'complete': False }
 
-    # Determine the ID for the item based on that of the previously added item
-    id = max([item['id'] for item in items]) + 1 if items else 0
-
-    item = { 'id': id, 'title': title, 'description': description, 'status': 'Not Started', 'complete': False }
-
-    # Add the item to the list
-    items.append(item)
-    session['items'] = items
+    add_item_to_list(item)
 
     return item
 
