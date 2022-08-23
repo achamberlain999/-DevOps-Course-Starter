@@ -11,8 +11,8 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     items = get_items()
-    completed_items = [item for item in items if item['complete']]
-    uncompleted_items = [item for item in items if not item['complete']]
+    completed_items = [item for item in items if item.complete]
+    uncompleted_items = [item for item in items if not item.complete]
 
     return render_template('index.html', completed_items=completed_items, uncompleted_items=uncompleted_items)
 

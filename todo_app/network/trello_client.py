@@ -51,7 +51,6 @@ def add_item_to_list(item):
 
 def complete_card(id):
     url = url_builder(F"/cards/{id}")
-    print(url)
     payload = {
         'idList': LIST_IDS['Done']
     }

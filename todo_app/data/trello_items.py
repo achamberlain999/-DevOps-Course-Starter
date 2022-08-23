@@ -1,20 +1,13 @@
 from todo_app.network.trello_client import get_trello_lists_with_cards, add_item_to_list, delete_card, complete_card, uncomplete_card
-
+from todo_app.models.item import Item
 
 def get_items():
     trello_items = get_trello_lists_with_cards()
     items = []
     
     for list in trello_items:
-        list_name = list['name']
         for card in list['cards']:
-            print(card)
-            items.append({
-                'id': card['id'],
-                'title': card['name'],
-                'description': card['desc'],
-                'complete': list_name == "Done"
-            })
+            items.append(Item.from_trello_card(card, list))
 
     return items
 
