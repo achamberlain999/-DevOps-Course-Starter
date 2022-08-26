@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-12">
+      <h2>New Task</h2>
+      <form action="/task" method="post">
+  
+        <div class="row">
+          <div class="form-group col-md">
+            <label for="new_task_title">Title</label>
+            <input type="text" name="new_task_title" class="form-control"
+              placeholder="e.g. Complete DevOps coursework..." required>
+          </div>
+  
+          <div class="form-group col-md">
+            <label for="new_task_description">Description</label>
+            <input type="text" name="new_task_description" class="form-control" placeholder="e.g. Complete exercise 1...">
+            <small class="form-text text-muted">This can be left blank.</small>
+          </div>
+  
+          <div class="col-md-1 d-flex justify-content-center align-items-center" style="padding: 0 0 8px 0">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+    </div>
+  </div>
