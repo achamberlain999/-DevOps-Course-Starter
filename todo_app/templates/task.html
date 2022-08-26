@@ -10,11 +10,11 @@
 
     <div style="flex-shrink: 0;">
     {% if item.complete %}
-    <button class="btn btn-outline-success btn-icon-green" formaction="/task/uncomplete/{{ item.id }}">{% include "assets/icon-back.svg" %}</button>
+    <button class="btn btn-outline-success btn-icon-green" title="undo" formaction="/task/uncomplete/{{ item.id }}">{% include "assets/icon-back.svg" %}</button>
     {% else %}
-    <button class="btn btn-outline-success btn-icon-green" formaction="/task/complete/{{ item.id }}">{% include "assets/icon-check.svg" %}</button>
+    <button class="btn btn-outline-success btn-icon-green" title="complete" formaction="/task/complete/{{ item.id }}">{% include "assets/icon-check.svg" %}</button>
     {% endif %}
-    <button class="btn btn-outline-danger btn-icon-red" formaction="/task/delete/{{ item.id }}">{% include "assets/icon-cross.svg" %}</button>
+    <button class="btn btn-outline-danger btn-icon-red" title="delete" formaction="/task/delete/{{ item.id }}">{% include "assets/icon-cross.svg" %}</button>
     </div>
 </div>
 

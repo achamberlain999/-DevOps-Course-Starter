@@ -4,7 +4,7 @@ import requests
 BOARD_ID = os.getenv('TRELLO_BOARD_ID')
 
 LIST_IDS = {
-    'Open': None,
+    'To do': None,
     'Done': None
 }
 
@@ -15,7 +15,7 @@ def get_list_ids():
     url = url_builder(f"/boards/{BOARD_ID}/lists")
     r = requests.get(url)
     
-    LIST_IDS['Open'] = next(l['id'] for l in r.json() if l['name'] == 'Open')
+    LIST_IDS['To do'] = next(l['id'] for l in r.json() if l['name'] == 'To do')
     LIST_IDS['Done'] = next(l['id'] for l in r.json() if l['name'] == 'Done')
 
 get_list_ids()
@@ -33,7 +33,7 @@ def add_item_to_list(title, description):
     payload = {
         'name': title,
         'desc': description,
-        'idList': LIST_IDS['Open']
+        'idList': LIST_IDS['To do']
     }
     r = requests.post(url, params=payload)
     return r.json()
@@ -49,7 +49,7 @@ def complete_card(id):
 def uncomplete_card(id):
     url = url_builder(f"/cards/{id}")
     payload = {
-        'idList': LIST_IDS['Open']
+        'idList': LIST_IDS['To do']
     }
     r = requests.put(url, params=payload)
     return r.json()
