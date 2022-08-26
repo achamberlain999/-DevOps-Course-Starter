@@ -4,8 +4,8 @@ import requests
 BOARD_ID = os.getenv('TRELLO_BOARD_ID')
 
 LIST_IDS = {
-    'Open': False,
-    'Done': False
+    'Open': None,
+    'Done': None
 }
 
 def url_builder(route):
