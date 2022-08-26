@@ -25,8 +25,8 @@ queryParams = {
 response = requests.post(url_builder('/boards'), params=queryParams)
 
 if response.status_code == 200:
-    BOARD_ID = response.json()['id']
-    print(f"Board created with name \"{board_name}\" and id \"{BOARD_ID}\"")
+    TRELLO_BOARD_ID = response.json()['id']
+    print(f"Board created with name \"{board_name}\" and id \"{TRELLO_BOARD_ID}\"")
 else:
     print("Board creation failed.")
     exit(1)
@@ -40,11 +40,11 @@ for title in lists:
         'name': title,
     } | keyParams
 
-    response = requests.post(url_builder(f"/boards/{BOARD_ID}/lists"), params=queryParams)
+    response = requests.post(url_builder(f"/boards/{TRELLO_BOARD_ID}/lists"), params=queryParams)
 
     if response.status_code == 200:
         print(f"List created with name \"{title}\"")
 
 
-print(f"Set BOARD_ID in .env")
-print(f"{BOARD_ID=}")
+print(f"Set TRELLO_BOARD_ID in .env")
+print(f"{TRELLO_BOARD_ID=}")

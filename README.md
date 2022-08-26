@@ -41,11 +41,8 @@ The app uses Trello as a 'database' to store cards.
 1. [Sign up](https://trello.com/signup) for Trello if you don't already have an account
 1. Get your [API_KEY](https://trello.com/app-key) and set it in `.env` as `TRELLO_API_KEY`
 1. On the same page, generate an API_TOKEN and set it in `.env` as `TRELLO_API_TOKEN`
-1. Then you'll need to create a board called `DevOps` in the Trello web app and get the boardId using
-```
-curl https://api.trello.com/1/members/me/boards?fields=name,url&key=API_KEY&token=API_TOKEN
-```
-1. Lastly set this boardId in `.env` as `TRELLO_BOARD_ID`
+1. Run `python3 trello-set-up.py` which will create a Trello board with the correct lists
+1. Use the output of this job to set` TRELLO_BOARD_ID` in `.env`
 
 ## Running the App
 
