@@ -1,6 +1,12 @@
 Features added:
-- 
-Potential improvements:
-- 
 
-DON'T FORGET TO SUBMIT TO APTEM!
+- This
+
+Potential improvements:
+
+- That
+
+Submission
+
+- [ ] Submit to Aptem
+- [ ] Finish clicked
