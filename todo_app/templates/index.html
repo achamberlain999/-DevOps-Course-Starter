@@ -15,9 +15,10 @@
 
 <form action="/" method="post">
 
-  <div class="row">
+  <div class="row" style="margin-bottom: 200px">
     <div class="col-lg">
       <h5>Open</h5>
+      <ul class="list-group mb-4">
       {% if not uncompleted_items %}
       {% if completed_items %}
       <p class="text-secondary" style="margin: 20px 0">Hurrah! Looks like it's pub time 🍻</p>
@@ -27,23 +28,9 @@
       {% endif %}
 
 
-      <ul class="list-group mb-4">
-        {% for item in uncompleted_items %}
-        <div class="container border rounded d-flex justify-content-between align-items-top" style="padding: 20px; margin: 10px 0">
-          <div class="d-flex flex-column" style="padding-right: 20px;">
-
-            <label for="{{ item.id }}" class="font-weight-bold">{{ item.name }}</label>
-            {% if item.description %}
-            <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
-            {% endif %}
-          </div>
-
-          <div style="flex-shrink: 0;">
-            <button class="btn btn-outline-success" formaction="/task/complete/{{ item.id }}">Complete</button>
-            <button class="btn btn-outline-danger" formaction="/task/delete/{{ item.id }}">Delete</button>
-          </div>
-        </div>
-        {% endfor %}
+      {% for item in uncompleted_items %}
+      {% include "task.html" %}
+      {% endfor %}
       </ul>
 
     </div>
@@ -63,20 +50,7 @@
         {% endif %}
 
         {% for item in completed_items %}
-        <div class="container border rounded d-flex justify-content-between align-items-top" style="padding: 20px; margin: 10px 0">
-          <div class="d-flex flex-column" style="padding-right: 20px;">
-
-            <label for="{{ item.id }}" class="font-weight-bold">{{ item.name }}</label>
-            {% if item.description %}
-            <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
-            {% endif %}
-          </div>
-
-          <div style="flex-shrink: 0;">
-            <button class="btn btn-success" formaction="/task/uncomplete/{{ item.id }}">Task completed</button>
-            <button class="btn btn-outline-danger" formaction="/task/delete/{{ item.id }}">Delete</button>
-          </div>
-        </div>
+        {% include "task.html" %}
         {% endfor %}
       </ul>
 
