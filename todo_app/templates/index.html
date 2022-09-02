@@ -1,23 +1,23 @@
 {% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
+{% block title %}Tasko{% endblock %}
 
 {% block content %}
-<div class="jumbotron">
-  <h1 class="display-4">To-Do App</h1>
+<div class="jumbotron text-center">
+  <h1 class="display-4">Tasko</h1>
   <p class="lead">Just another to-do app.</p>
+  {% include "new_task_form.html" %}
 </div>
-
-{% include "new_task_form.html" %}
 
 <hr />
 
-<h2 style="margin: 0 0 20px">Tasks</h2>
+<h2 class="text-center" style="margin: 40px 0 20px">Tasks</h2>
 
 <form action="/" method="post">
 
-  <div class="row">
+  <div class="row" style="margin-bottom: 200px">
     <div class="col-lg">
-      <h5>Open</h5>
+      <h5 class="text-center">Open</h5>
+      <ul class="list-group mb-4">
       {% if not uncompleted_items %}
       {% if completed_items %}
       <p class="text-secondary" style="margin: 20px 0">Hurrah! Looks like it's pub time 🍻</p>
@@ -27,23 +27,9 @@
       {% endif %}
 
 
-      <ul class="list-group mb-4">
-        {% for item in uncompleted_items %}
-        <div class="container border rounded d-flex justify-content-between align-items-center" style="padding: 20px; margin: 10px 0">
-          <div class="d-flex flex-column">
-
-            <label for="{{ item.id }}" class="font-weight-bold">{{ item.title }}</label>
-            {% if item.description %}
-            <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
-            {% endif %}
-          </div>
-
-          <div>
-            <button class="btn btn-outline-success" formaction="/task/complete/{{ item.id }}">Complete</button>
-            <button class="btn btn-outline-danger" formaction="/task/delete/{{ item.id }}">Delete</button>
-          </div>
-        </div>
-        {% endfor %}
+      {% for item in uncompleted_items %}
+      {% include "task.html" %}
+      {% endfor %}
       </ul>
 
     </div>
@@ -52,7 +38,7 @@
 
     <div class="col-lg">
 
-      <h5>Done</h5>
+      <h5 class="text-center">Done</h5>
       <ul class="list-group mb-4">
         {% if not completed_items %}
         {% if uncompleted_items %}
@@ -63,20 +49,7 @@
         {% endif %}
 
         {% for item in completed_items %}
-        <div class="container border rounded d-flex justify-content-between align-items-center" style="padding: 20px; margin: 10px 0">
-          <div class="d-flex flex-column">
-
-            <label for="{{ item.id }}" class="font-weight-bold">{{ item.title }}</label>
-            {% if item.description %}
-            <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
-            {% endif %}
-          </div>
-
-          <div>
-            <button class="btn btn-success" formaction="/task/uncomplete/{{ item.id }}">Task completed</button>
-            <button class="btn btn-outline-danger" formaction="/task/delete/{{ item.id }}">Delete</button>
-          </div>
-        </div>
+        {% include "task.html" %}
         {% endfor %}
       </ul>
 

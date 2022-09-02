@@ -1,0 +1,40 @@
+<div class="container border rounded d-flex justify-content-between {% if item.description %}align-items-top{% else %}align-items-center{% endif %}"
+    style="padding: 20px; margin: 10px 0">
+    <div class="d-flex flex-column" style="padding-right: 20px;">
+
+    <h5 for="{{ item.id }}" class="font-weight-bold">{{ item.name }}</h5>
+    {% if item.description %}
+    <label for="{{ item.id }}" class="text-secondary">{{ item.description }}</label>
+    {% endif %}
+    </div>
+
+    <div style="flex-shrink: 0;">
+    {% if item.complete %}
+    <button class="btn btn-outline-success btn-icon-green" title="undo" formaction="/task/uncomplete/{{ item.id }}">{% include "assets/icon-back.svg" %}</button>
+    {% else %}
+    <button class="btn btn-outline-success btn-icon-green" title="complete" formaction="/task/complete/{{ item.id }}">{% include "assets/icon-check.svg" %}</button>
+    {% endif %}
+    <button class="btn btn-outline-danger btn-icon-red" title="delete" formaction="/task/delete/{{ item.id }}">{% include "assets/icon-cross.svg" %}</button>
+    </div>
+</div>
+
+<style>
+.btn-icon-red {
+    fill: #dc3545;
+    transition: 0.2s;
+}
+
+.btn-icon-red:hover {
+    fill: white;
+}
+
+.btn-icon-green {
+    fill: #28a745;
+    transition: 0.2s;
+}
+
+.btn-icon-green:hover {
+    fill: white;
+}
+
+</style>
