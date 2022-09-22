@@ -17,7 +17,7 @@ def create_item_provider():
 
     return ItemProvider(trello_client)
 
-def create_app(env_path):
+def create_app(env_path='.env'):
     load_dotenv(find_dotenv(env_path))
 
     app = Flask(__name__)
@@ -63,4 +63,4 @@ def create_app(env_path):
     return app
 
 if __name__ == "__main__":
-    create_app('.env')
+    create_app()
