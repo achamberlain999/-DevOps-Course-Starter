@@ -4,43 +4,47 @@ from todo_app.view_models.homepage_view_model import HomepageViewModel
 
 from todo_app.flask_config import Config
 
-app = Flask(__name__)
-app.config.from_object(Config())
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config())
 
+    @app.route('/')
+    def index():
+        items = get_items()
+        completed_items = [item for item in items if item.complete]
+        uncompleted_items = [item for item in items if not item.complete]
 
-@app.route('/')
-def index():
-    items = get_items()
-    completed_items = [item for item in items if item.complete]
-    uncompleted_items = [item for item in items if not item.complete]
+        model = HomepageViewModel(items)
+        return render_template('index.html', model=model)
 
-    model = HomepageViewModel(items)
-    return render_template('index.html', model=model)
+    @app.route('/task', methods=['POST'])
+    def add_new_task():
+        title = request.form.get('new_task_title')
+        description = request.form.get('new_task_description')
+        
+        if title:
+            add_item(title, description)
 
-@app.route('/task', methods=['POST'])
-def add_new_task():
-    title = request.form.get('new_task_title')
-    description = request.form.get('new_task_description')
+        return redirect('/')
+
+    @app.route('/task/complete/<id>', methods=['POST'])
+    def complete(id):
+        complete_item(id)
+
+        return redirect('/')
+
+    @app.route('/task/uncomplete/<id>', methods=['POST'])
+    def uncomplete(id):
+        uncomplete_item(id)
+
+        return redirect('/')
+
+    @app.route('/task/delete/<id>', methods=['POST'])
+    def delete(id):
+        delete_item(id)
+
+        return redirect('/')
     
-    if title:
-        add_item(title, description)
+    return app
 
-    return redirect('/')
-
-@app.route('/task/complete/<id>', methods=['POST'])
-def complete(id):
-    complete_item(id)
-
-    return redirect('/')
-
-@app.route('/task/uncomplete/<id>', methods=['POST'])
-def uncomplete(id):
-    uncomplete_item(id)
-
-    return redirect('/')
-
-@app.route('/task/delete/<id>', methods=['POST'])
-def delete(id):
-    delete_item(id)
-
-    return redirect('/')
+create_app()
