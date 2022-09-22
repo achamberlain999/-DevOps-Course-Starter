@@ -14,7 +14,7 @@ def index():
     completed_items = [item for item in items if item.complete]
     uncompleted_items = [item for item in items if not item.complete]
 
-    model = HomepageViewModel(completed_items, uncompleted_items)
+    model = HomepageViewModel(items)
     return render_template('index.html', model=model)
 
 @app.route('/task', methods=['POST'])

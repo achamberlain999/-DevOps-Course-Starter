@@ -1,12 +1,15 @@
 class HomepageViewModel:
-    def __init__(self, completed_items, uncompleted_items):
-        self._completed_items = completed_items
-        self._uncompleted_items = uncompleted_items
+    def __init__(self, items):
+        self._items = items
+
+    @property
+    def items(self):
+        return self._items
     
     @property
     def completed_items(self):
-        return self._completed_items
+        return self._items
     
     @property
     def uncompleted_items(self):
-        return self._uncompleted_items
+        return self._items
