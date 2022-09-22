@@ -6,7 +6,6 @@ class TrelloClient:
         self.TRELLO_API_BASE_URL = trello_api_base_url
         self.TRELLO_API_KEY = trello_api_key
         self.TRELLO_API_TOKEN = trello_api_token
-        self.BOARD_ID = board_id
         self.LIST_IDS = {
             'To do': None,
             'Done': None
