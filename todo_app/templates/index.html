@@ -18,8 +18,8 @@
     <div class="col-lg">
       <h5 class="text-center">Open</h5>
       <ul class="list-group mb-4">
-      {% if not uncompleted_items %}
-      {% if completed_items %}
+      {% if not model.uncompleted_items %}
+      {% if model.completed_items %}
       <p class="text-secondary" style="margin: 20px 0">Hurrah! Looks like it's pub time 🍻</p>
       {% else %}
       <p class="text-secondary" style="margin: 20px 0">Time to start adding some tasks! ⏰</p>
@@ -27,7 +27,7 @@
       {% endif %}
 
 
-      {% for item in uncompleted_items %}
+      {% for item in model.uncompleted_items %}
       {% include "task.html" %}
       {% endfor %}
       </ul>
@@ -40,15 +40,15 @@
 
       <h5 class="text-center">Done</h5>
       <ul class="list-group mb-4">
-        {% if not completed_items %}
-        {% if uncompleted_items %}
+        {% if not model.completed_items %}
+        {% if model.uncompleted_items %}
         <p class="text-secondary" style="margin: 20px 0">Looks like you've got some work to do. Better knuckle down 💻</p>
         {% else %}
         <p class="text-secondary" style="margin: 20px 0">Time to start adding some tasks! ⏰</p>
         {% endif %}
         {% endif %}
 
-        {% for item in completed_items %}
+        {% for item in model.completed_items %}
         {% include "task.html" %}
         {% endfor %}
       </ul>
