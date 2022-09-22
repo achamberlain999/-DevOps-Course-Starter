@@ -12,4 +12,4 @@ class HomepageViewModel:
     
     @property
     def uncompleted_items(self):
-        return self._items
+        return [item for item in self._items if not item.complete]
