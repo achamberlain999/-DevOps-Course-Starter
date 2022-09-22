@@ -7,7 +7,7 @@ class TestHomepageViewModel:
 
         model = HomepageViewModel([item])
 
-        assert model.completed_items[0] == item
+        assert model.items[0] == item
     
     def test_get_completed_items(self):
         uncompleted_item = Item('ID', 'item_name', 'item_description', complete=False)

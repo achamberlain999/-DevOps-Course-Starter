@@ -8,7 +8,7 @@ class HomepageViewModel:
     
     @property
     def completed_items(self):
-        return self._items
+        return [item for item in self._items if item.complete]
     
     @property
     def uncompleted_items(self):
