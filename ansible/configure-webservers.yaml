@@ -17,3 +17,10 @@
     - name: Install poetry
       ansible.builtin.shell:
         cmd: which poetry || curl -sSL https://install.python-poetry.org | python3 -
+        creates: ~/.local/bin/poetry
+    - name: Create app directory
+      ansible.builtin.file:
+        path: opt/todoapp
+        state: directory
+        mode: '0755'
+        owner: ec2-user
