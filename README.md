@@ -117,3 +117,10 @@ Run
 scp ansible/file_name devops-c:file_name
 ```
 This will copy the file to the home directory of `ec2-user`. If you need to move it within the server then you can use `mv`.
+
+### Run the playbook
+
+To run the ansible playbook to configure the webservers, ssh into the control node and run
+```
+ansible-playbook configure-webservers.yaml
+```
