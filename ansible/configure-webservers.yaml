@@ -30,3 +30,7 @@
         repo: https://github.com/achamberlain999/DevOps-Course-Starter.git
         dest: /opt/todoapp
         depth: 1
+    - name: Install app dependencies
+      ansible.builtin.command:
+        cmd: ~/.local/bin/poetry install
+        chdir: /opt/todoapp
