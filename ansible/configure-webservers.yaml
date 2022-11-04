@@ -49,3 +49,15 @@
       ansible.builtin.template:
         src: ~/.env.j2
         dest: /opt/todoapp/.env
+    - name: Copy Tasko service
+      ansible.builtin.copy:
+        src: /opt/todoapp/todoapp.service
+        dest: /etc/systemd/system/todoapp.service
+        remote_src: true
+      become: yes
+    - name: Run Tasko
+      ansible.builtin.systemd:
+        name: todoapp
+        daemon_reload: true
+        state: restarted
+      become: yes
