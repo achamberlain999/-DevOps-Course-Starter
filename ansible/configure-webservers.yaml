@@ -4,3 +4,8 @@
   remote_user: ec2-user
 
   tasks:
+    - name: Install git
+      ansible.builtin.yum:
+        name: git
+        state: latest
+      become: yes
