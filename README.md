@@ -62,3 +62,20 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Tests
+
+Testing framework: [pytest](https://docs.pytest.org/)
+
+### Running the tests
+
+Run `poetry run pytest`. To run a specific test suite, run `poetry run pytest -k "TestClassName"`.
+
+### Adding tests
+
+1. Tests are found in `todo_app/tests/`
+1. If you are testing a new class
+    - Add a new file with name `test_CLASS_FILE_NAME.py`, e.g. `test_homepage_view_model.py`.
+    - Add a new class within the file called `Test{ClassName}`
+1. Add test methods to the test class, prefixing each with `test_` so they are picked up by pytest
+
