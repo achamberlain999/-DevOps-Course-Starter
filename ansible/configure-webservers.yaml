@@ -9,3 +9,11 @@
         name: git
         state: latest
       become: yes
+    - name: Install Python
+      ansible.builtin.yum:
+        name: python
+        state: 3.7
+      become: yes
+    - name: Install poetry
+      ansible.builtin.shell:
+        cmd: which poetry || curl -sSL https://install.python-poetry.org | python3 -
