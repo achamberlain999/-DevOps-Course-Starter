@@ -10,12 +10,14 @@ class TrelloClient:
             'To do': None,
             'Done': None
         }
-        self.get_list_ids()
 
     def url_builder(self, route):
         return f"{self.TRELLO_API_BASE_URL}{route}?key={self.TRELLO_API_KEY}&token={self.TRELLO_API_TOKEN}"
 
-    def get_list_ids(self):    
+    def get_list_ids_if_null(self):
+        if (self.LIST_IDS['To do'] and self.LIST_IDS['Done']):
+            return
+
         url = self.url_builder(f"/boards/{self.BOARD_ID}/lists")
         r = requests.get(url)
         
@@ -32,6 +34,7 @@ class TrelloClient:
 
     def add_item_to_list(self, title, description):
         url = self.url_builder(f"/cards")
+        self.get_list_ids_if_null()
         payload = {
             'name': title,
             'desc': description,
@@ -42,6 +45,7 @@ class TrelloClient:
 
     def complete_card(self, id):
         url = self.url_builder(f"/cards/{id}")
+        self.get_list_ids_if_null()
         payload = {
             'idList': self.LIST_IDS['Done']
         }
@@ -50,6 +54,7 @@ class TrelloClient:
 
     def uncomplete_card(self, id):
         url = self.url_builder(f"/cards/{id}")
+        self.get_list_ids_if_null()
         payload = {
             'idList': self.LIST_IDS['To do']
         }

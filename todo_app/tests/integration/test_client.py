@@ -5,7 +5,7 @@ from todo_app import app
 
 @pytest.fixture
 def client():
-    test_app = app.create_app('.env.test')
+    test_app = app.create_app('env/.env.test')
 
     with test_app.test_client() as client:
         yield client
@@ -24,7 +24,7 @@ class StubResponse():
     def json(self):
         return self.fake_response_data
 
-def get_lists_stub(url, params):
+def get_lists_stub(url, params=None):
     test_board_id = os.getenv('TRELLO_BOARD_ID')
     fake_response_data = None
 

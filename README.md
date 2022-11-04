@@ -69,7 +69,7 @@ Testing framework: [pytest](https://docs.pytest.org/)
 
 ### Running the tests
 
-Run `pytest`. To run a specific test suite, run `pytest -k "TestClassName"`.
+Run `poetry run pytest`. To run a specific test suite, run `poetry run pytest -k "TestClassName"`.
 
 ### Adding tests
 
