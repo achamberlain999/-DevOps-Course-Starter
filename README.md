@@ -105,3 +105,15 @@ You'll be instructed to enter the password for `ec2-user`, after which you'll be
 
 Copy the step above while ssh-ed into the control node (you'll only need the managed node ssh config).
 This will allow you to ssh from the managed node into the control node easily.
+
+## Ansible
+
+Ansible files are found in `/ansible`.
+
+### Copying ansible files to the control node
+
+Run
+```
+scp ansible/file_name devops-c:file_name
+```
+This will copy the file to the home directory of `ec2-user`. If you need to move it within the server then you can use `mv`.
