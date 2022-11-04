@@ -47,6 +47,5 @@
         chdir: /opt/todoapp
     - name: Create .env file
       ansible.builtin.template:
-        src: .env.j2
-        dest: .env
-        chdir: /opt/todoapp
+        src: ~/.env.j2
+        dest: /opt/todoapp/.env
