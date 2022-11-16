@@ -1,0 +1,63 @@
+- name: Update web servers
+  hosts: webservers
+  remote_user: ec2-user
+
+  vars_prompt:
+    - name: secret_key
+      prompt: App secret key
+
+    - name: trello_api_key
+      prompt: Trello API key
+
+    - name: trello_api_token
+      prompt: Trello API token
+
+  tasks:
+    - name: Install git
+      ansible.builtin.yum:
+        name: git
+        state: latest
+      become: yes
+    - name: Install Python
+      ansible.builtin.yum:
+        name: python
+        state: latest
+      become: yes
+    - name: Install poetry
+      ansible.builtin.shell:
+        cmd: curl -sSL https://install.python-poetry.org | python3 -
+        creates: ~/.local/bin/poetry
+    - name: Create app directory
+      ansible.builtin.file:
+        path: /opt/todoapp
+        state: directory
+        mode: '0755'
+        owner: ec2-user
+      become: yes
+    - name: Clone todo_app at main
+      ansible.builtin.git:
+        repo: https://github.com/achamberlain999/DevOps-Course-Starter.git
+        dest: /opt/todoapp
+        single_branch: yes
+        version: exercise-4
+        depth: 1
+    - name: Install app dependencies
+      ansible.builtin.command:
+        cmd: ~/.local/bin/poetry install
+        chdir: /opt/todoapp
+    - name: Create .env file
+      ansible.builtin.template:
+        src: ~/.env.j2
+        dest: /opt/todoapp/.env
+    - name: Copy Tasko service
+      ansible.builtin.copy:
+        src: /opt/todoapp/todoapp.service
+        dest: /etc/systemd/system/todoapp.service
+        remote_src: true
+      become: yes
+    - name: Run Tasko
+      ansible.builtin.systemd:
+        name: todoapp
+        daemon_reload: true
+        state: restarted
+      become: yes

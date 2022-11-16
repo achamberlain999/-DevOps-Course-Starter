@@ -79,3 +79,48 @@ Run `poetry run pytest`. To run a specific test suite, run `poetry run pytest -k
     - Add a new class within the file called `Test{ClassName}`
 1. Add test methods to the test class, prefixing each with `test_` so they are picked up by pytest
 
+## SSH
+
+### SSH config
+
+To make it easier to ssh into the boxes, copy the following into your `.ssh/config` file:
+```
+Host devops-c
+    HostName CONTROL_NODE_IP_ADDRESS
+    User ec2-user
+    IdentityFile ~/.ssh/KEY_NAME
+
+Host devops-m
+    HostName MANAGED_NODE_IP_ADDRESS
+    User ec2-user
+    IdentityFile ~/.ssh/KEY_NAME
+```
+replacing the IP_ADDRESSes and KEY_NAME with those relevant to you.
+
+Then run: `ssh-copy-id ec2-user@devops-c` and `ssh-copy-id ec2-user@devops-m`
+
+You'll be instructed to enter the password for `ec2-user`, after which you'll be able to ssh in using just `ssh devops-c` and `ssh-devops-m`.
+
+### SSH config in the control node
+
+Copy the step above while ssh-ed into the control node (you'll only need the managed node ssh config).
+This will allow you to ssh from the managed node into the control node easily.
+
+## Ansible
+
+Ansible files are found in `/ansible`.
+
+### Copying ansible files to the control node
+
+Run
+```
+scp ansible/file_name devops-c:file_name
+```
+This will copy the file to the home directory of `ec2-user`. If you need to move it within the server then you can use `mv`.
+
+### Run the playbook
+
+To run the ansible playbook to configure the webservers, ssh into the control node and run
+```
+ansible-playbook configure-webservers.yaml
+```
