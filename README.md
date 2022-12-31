@@ -127,21 +127,35 @@ ansible-playbook configure-webservers.yaml
 
 ## Docker
 
-### Building the image
+### Building the images
 
-Instructions for how to build the image are found in `Dockerfile`. To build the image run:
+Instructions for how to build the image are found in `Dockerfile`. To build the base image run:
 
 ```docker build --tag todo-app .```
 
+To build production run:
+
+```docker build --target production --tag todo-app:prod .```
+
+To build development run:
+
+```docker build --target development --tag todo-app:dev .```
+
 ### Running the image
 
-To create a new process, run:
+To create a new production container, run:
 
-```docker run --env-file .env -p 127.0.0.1:8000:8000/tcp --name tasko -d todo-app```
+```docker run --env-file .env -p 127.0.0.1:8000:8000/tcp --name tasko-prod -d todo-app:prod```
 
-The parameters are as follows:
+To create a new development container, run:
+
+```docker run --env-file .env -p 127.0.0.1:8000:8000/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev```
+
+#### Parameter meanings
+
 1. `env-file` tells the container where to fetch the environment variables from
 1. `-p IP:HOST_PORT:DOCKER_PORT/protocol` matches up an IP and port on your local machine to a PORT in the container
 1. `--name` specifies a name for the container so it can be easily referred to in future
 1. `-d` prevents the container from being attached to your current terminal
-
+1. `--mount` creates a bind mount meaning that the docker container will treat its local `/todo_app` directory as the `$(pwd)"/todo_app` directory in your filesystem, 
+allowing you to develop the app inside a docker container with hot reloading.
