@@ -149,7 +149,9 @@ To create a new production container, run:
 
 To create a new development container, run:
 
-```docker run --env-file .env -p 127.0.0.1:8000:8000/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev```
+```docker run --env-file .env -p 127.0.0.1:8001:8000/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev```
+
+(Note we develop against port 8001 so we can have production and development running simultaneously).
 
 #### Parameter meanings
 
