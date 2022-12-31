@@ -124,3 +124,23 @@ To run the ansible playbook to configure the webservers, ssh into the control no
 ```
 ansible-playbook configure-webservers.yaml
 ```
+
+## Docker
+
+### Building the image
+
+Instructions for how to build the image are found in `Dockerfile`. To build the image run:
+
+```docker build --tag todo-app .```
+
+### Running the image
+
+To create a new process, run:
+
+```docker run --env-file .env -p 127.0.0.1:8000:8000/tcp --name tasko todo-app```
+
+The parameters are as follows:
+1. `env-file` tells the container where to fetch the environment variables from
+1. `-p IP:HOST_PORT:DOCKER_PORT/protocol` matches up an IP and port on your local machine to a PORT in the container
+1. `--name` specifies a name for the container so it can be easily referred to in future
+
