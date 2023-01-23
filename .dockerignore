@@ -1,0 +1,8 @@
+.env
+/env
+ansible
+.github
+.pytest_cache
+.venv
+.vscode
+.gitignore
