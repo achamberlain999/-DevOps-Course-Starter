@@ -141,6 +141,10 @@ To build development run:
 
 ```docker build --target development --tag todo-app:dev .```
 
+To build test run:
+
+```docker build --target test --tag todo-app:test .```
+
 ### Running the image
 
 To create a new production container, run:
@@ -152,6 +156,10 @@ To create a new development container, run:
 ```docker run --env-file .env -p 127.0.0.1:8001:8000/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev```
 
 (Note we develop against port 8001 so we can have production and development running simultaneously).
+
+To create a new test container, run:
+
+```docker run --name tasko-test todo-app:test```
 
 #### Parameter meanings
 
