@@ -1,4 +1,4 @@
-FROM arm64v8/python:latest as base
+FROM python:latest as base
 
 RUN pip install poetry
 WORKDIR /todo_app
