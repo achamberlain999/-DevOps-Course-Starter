@@ -1,5 +1,9 @@
 name: Continuous Integration
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - docs
+      - '**.md'
 
 jobs:
   build:
@@ -8,3 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: docker build --target test --tag todo-app:test .
+    - run: docker run --name tasko-test todo-app:test
