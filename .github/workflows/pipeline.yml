@@ -10,10 +10,23 @@ on:
       - '**.md'
 
 jobs:
-  build:
-    name: Build and test
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - run: docker build --target test --tag todo-app:test .
     - run: docker run --name tasko-test todo-app:test
+  
+  docker-build:
+    name: Build production docker image
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          echo ${{ github.event_name }}
+          echo ${{ github.ref }}
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build --platform linux/amd64 --target production --tag alechasoftwire/todo-app:prod .
+      - run: docker push alechasoftwire/todo-app:prod
