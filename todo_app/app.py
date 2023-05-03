@@ -2,20 +2,18 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, render_template, request, redirect
 from todo_app.view_models.homepage_view_model import HomepageViewModel
-from todo_app.network.trello_client import TrelloClient
-from todo_app.data.trello_items import ItemProvider
+from todo_app.network.mongodb_client import MongoDBClient
+from todo_app.data.mongodb_items import ItemProvider
 
 from todo_app.flask_config import Config
 
-def create_item_provider():
-    trello_client = TrelloClient(
-        os.getenv('TRELLO_BOARD_ID'),
-        os.getenv('TRELLO_API_BASE_URL'),
-        os.getenv('TRELLO_API_KEY'),
-        os.getenv('TRELLO_API_TOKEN')
+def create_item_provider(environment):
+    mongodb_client = MongoDBClient(
+        os.getenv('DATABASE_CONNECTION_STRING'),
+        environment
     )
 
-    return ItemProvider(trello_client)
+    return ItemProvider(mongodb_client)
 
 def get_env_path(environment):
     if environment == 'test':
@@ -33,7 +31,7 @@ def create_app(environment='development'):
     app = Flask(__name__)
     app.config.from_object(Config())
 
-    item_provider = create_item_provider()
+    item_provider = create_item_provider(environment)
 
     @app.route('/')
     def index():
