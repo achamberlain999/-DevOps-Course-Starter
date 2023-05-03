@@ -1,4 +1,3 @@
-
 ## Docker
 
 ### Building and running the images for local verification
@@ -24,7 +23,7 @@ allowing you to develop the app inside a docker container with hot reloading.
 
 ### Building the production docker image locally
 
-Use the following command to build the production docker image. Warning: if you are working on an M1 Mac you must specify the platform as shown below. Docker will build an image for the architecture of your machine, but the container will fail to start up in Azure if you push an M1 image.
+Use the following command to build the production docker image. **Warning:** if you are working on an M1 Mac you must specify the platform as shown below. Docker will build an image for the architecture of your machine, but the container will fail to start up in Azure if you push an M1 image.
 
 ```docker build --platform linux/amd64 --target production --tag alechasoftwire/todo-app:prod .```
 
