@@ -5,6 +5,11 @@
 DOCKER_ENVIRONMENT=$1
 SHOULD_RUN=$2
 
+# Colours
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
 if [ $DOCKER_ENVIRONMENT = "prod" ]
 then
     echo "Building the production docker image..."
@@ -12,7 +17,7 @@ then
     if [ $SHOULD_RUN = "true" ]
     then
         echo "Running the production docker image..."
-        docker run --env-file .env -p 127.0.0.1:8000:80/tcp --name tasko-prod -d todo-app:prod || echo "Make sure you have deleting the currently running prod container..."
+        docker run --env-file .env -p 127.0.0.1:8000:80/tcp --name tasko-prod -d todo-app:prod || echo "${YELLOW}Make sure you have deleted the currently running prod container...${NC}"
     fi
 fi
 
