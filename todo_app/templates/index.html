@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
-{% block title %}Tasko{% endblock %}
+{% block title %}
+{% if model.environment != 'production' %}[{{ model.environment }}]{% endif %}
+Tasko
+{% endblock %}
 
 {% block content %}
 <div class="jumbotron text-center">

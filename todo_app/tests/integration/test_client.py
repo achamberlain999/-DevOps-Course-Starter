@@ -5,7 +5,7 @@ from todo_app import app
 
 @pytest.fixture
 def client():
-    test_app = app.create_app('env/.env.test')
+    test_app = app.create_app('test')
 
     with test_app.test_client() as client:
         yield client

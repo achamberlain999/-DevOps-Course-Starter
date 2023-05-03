@@ -17,7 +17,17 @@ def create_item_provider():
 
     return ItemProvider(trello_client)
 
-def create_app(env_path='.env'):
+def get_env_path(environment):
+    if environment == 'test':
+        return 'env/.env.test'
+    else:
+        # Currently development and production are using the same credentials
+        # Which is obviously bad but we will change this later
+        return '.env'
+
+def create_app(environment='development'):
+    print(f"Running the app...\nEnvironment: ${environment}")
+    env_path = get_env_path(environment)
     load_dotenv(find_dotenv(env_path))
 
     app = Flask(__name__)
@@ -29,7 +39,7 @@ def create_app(env_path='.env'):
     def index():
         items = item_provider.get_items()
         
-        model = HomepageViewModel(items)
+        model = HomepageViewModel(items, environment)
         return render_template('index.html', model=model)
 
     @app.route('/task', methods=['POST'])

@@ -24,6 +24,7 @@ then
     if [ $SHOULD_RUN = "true" ]
     then
         echo "Running the development docker image..."
+        docker stop tasko-dev && docker rm tasko-dev
         # Note we develop against port 8001 so we can have production and development running simultaneously
         docker run --env-file .env -p 127.0.0.1:8001:80/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev
     fi

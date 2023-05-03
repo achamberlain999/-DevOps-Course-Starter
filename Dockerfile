@@ -1,16 +1,16 @@
 FROM python:latest as base
 
 RUN pip install poetry
-COPY todo_app todo_app
 COPY poetry.toml poetry.lock pyproject.toml /
 RUN poetry config virtualenvs.create false --local && poetry install
 
 EXPOSE 80
 
+COPY todo_app todo_app
 
 FROM base as production
 
-ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:80 "todo_app.app:create_app()"
+ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:80 "todo_app.app:create_app('production')"
 
 
 FROM base as development
