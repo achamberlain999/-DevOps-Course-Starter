@@ -21,7 +21,7 @@ jobs:
   docker-build-and-deploy:
     name: Build & deploy production docker image
     needs: test
-    # if: github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
+    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub
