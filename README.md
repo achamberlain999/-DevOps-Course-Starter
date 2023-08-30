@@ -1,6 +1,7 @@
 # DevOps Apprenticeship: Project Exercise
 
-> If you are using GitPod for the project exercise (i.e. you cannot use your local machine) then you'll want to launch a VM using the [following link](https://gitpod.io/#https://github.com/CorndelWithSoftwire/DevOps-Course-Starter). Note this VM comes pre-setup with Python & Poetry pre-installed.
+Live site: https://alecha-softwire-tasko.azurewebsites.net/
+Docker image: https://hub.docker.com/repository/docker/alechasoftwire/todo-app/general
 
 ## System Requirements
 
@@ -41,7 +42,7 @@ The app uses Trello as a 'database' to store cards.
 1. [Sign up](https://trello.com/signup) for Trello if you don't already have an account
 1. Get your [API_KEY](https://trello.com/app-key) and set it in `.env` as `TRELLO_API_KEY`
 1. On the same page, generate an API_TOKEN and set it in `.env` as `TRELLO_API_TOKEN`
-1. Run `python3 trello-set-up.py` which will create a Trello board with the correct lists
+1. Run `python3 tools/trello-set-up.py` from the root directory, which will create a Trello board with the correct lists
 1. Use the output of this job to set` TRELLO_BOARD_ID` in `.env`
 
 ## Running the App
@@ -127,45 +128,8 @@ ansible-playbook configure-webservers.yaml
 
 ## Docker
 
-### Building the images
+Tasko uses Docker to containerise our web app for easy deployment to the cloud. For information on how Docker is set up in this project, see the dedicated [Docker page](docs/docker.md).
 
-Instructions for how to build the image are found in `Dockerfile`. To build the base image run:
+## Manual Release
 
-```docker build --tag todo-app .```
-
-To build production run:
-
-```docker build --target production --tag todo-app:prod .```
-
-To build development run:
-
-```docker build --target development --tag todo-app:dev .```
-
-To build test run:
-
-```docker build --target test --tag todo-app:test .```
-
-### Running the image
-
-To create a new production container, run:
-
-```docker run --env-file .env -p 127.0.0.1:8000:8000/tcp --name tasko-prod -d todo-app:prod```
-
-To create a new development container, run:
-
-```docker run --env-file .env -p 127.0.0.1:8001:8000/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev```
-
-(Note we develop against port 8001 so we can have production and development running simultaneously).
-
-To create a new test container, run:
-
-```docker run --name tasko-test todo-app:test```
-
-#### Parameter meanings
-
-1. `env-file` tells the container where to fetch the environment variables from
-1. `-p IP:HOST_PORT:DOCKER_PORT/protocol` matches up an IP and port on your local machine to a PORT in the container
-1. `--name` specifies a name for the container so it can be easily referred to in future
-1. `-d` prevents the container from being attached to your current terminal
-1. `--mount` creates a bind mount meaning that the docker container will treat its local `/todo_app` directory as the `$(pwd)"/todo_app` directory in your filesystem, 
-allowing you to develop the app inside a docker container with hot reloading.
+For information on how to do a manual release to Azure Web App, see [Manual Release](docs/release_process.md).
