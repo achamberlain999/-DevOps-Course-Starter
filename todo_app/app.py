@@ -23,10 +23,14 @@ def get_env_path(environment):
         # Which is obviously bad but we will change this later
         return '.env'
 
-def create_app(environment='development'):
-    print(f"Running the app...\nEnvironment: ${environment}")
+def load_dotenv_for_environment(environment):
     env_path = get_env_path(environment)
     load_dotenv(find_dotenv(env_path))
+
+def create_app(environment='development'):
+    print("Running the app...")
+    print(f"Environment: {environment}")
+    load_dotenv_for_environment(environment)
 
     app = Flask(__name__)
     app.config.from_object(Config())

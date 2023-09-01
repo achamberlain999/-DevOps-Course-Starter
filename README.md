@@ -10,14 +10,10 @@ The project uses poetry for Python to create an isolated environment and manage 
 ### Poetry installation (Bash)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-### Poetry installation (PowerShell)
-
-```powershell
-(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
-```
+Note if you are on Mac, you may need to execute `Install Certificates.command` in the Python folder before installing poetry. You may need to run this as `sudo`.
 
 ## Dependencies
 
@@ -34,16 +30,6 @@ $ cp .env.template .env  # (first time only)
 ```
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie. You should update the secret key in `.env` to a random guid.
-
-## Trello
-
-The app uses Trello as a 'database' to store cards.
-
-1. [Sign up](https://trello.com/signup) for Trello if you don't already have an account
-1. Get your [API_KEY](https://trello.com/app-key) and set it in `.env` as `TRELLO_API_KEY`
-1. On the same page, generate an API_TOKEN and set it in `.env` as `TRELLO_API_TOKEN`
-1. Run `python3 tools/trello-set-up.py` from the root directory, which will create a Trello board with the correct lists
-1. Use the output of this job to set` TRELLO_BOARD_ID` in `.env`
 
 ## Running the App
 

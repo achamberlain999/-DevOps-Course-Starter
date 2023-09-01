@@ -1,9 +1,8 @@
 import os
 import pytest
-import requests
 import pymongo
-from todo_app import app
 import mongomock
+from todo_app import app
 
 @pytest.fixture
 def client():
@@ -14,7 +13,8 @@ def client():
 
 @pytest.fixture
 def mock_db():
-    yield pymongo.MongoClient("mongodb://fakemongo.com")['test-tasko-database']
+    app.load_dotenv_for_environment('test')
+    yield pymongo.MongoClient(os.getenv('DATABASE_CONNECTION_STRING'))['test-tasko-database']
 
 class TestClient:
     def test_index_page__with_no_cards(self, client):
@@ -45,23 +45,3 @@ class TestClient:
         
         assert "Completed card" in html
         assert "Hurrah! Looks like it's pub time" in html
-
-class StubResponse():
-    def __init__(self, fake_response_data):
-        self.fake_response_data = fake_response_data
-
-    def json(self):
-        return self.fake_response_data
-
-def get_lists_stub(url, params=None):
-    test_board_id = os.getenv('TRELLO_BOARD_ID')
-    fake_response_data = None
-
-    if url.startswith(f'https://api.trello.com/1/boards/{test_board_id}/lists'):
-        fake_response_data = [{
-            'id': '123abc',
-            'name': 'To Do',
-            'cards': [{'id': '456', 'name': 'Test card', 'desc': 'Description'}]
-        }]
-    
-    return StubResponse(fake_response_data)
