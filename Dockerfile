@@ -2,7 +2,7 @@ FROM python:latest as base
 
 RUN pip install poetry
 COPY poetry.toml poetry.lock pyproject.toml /
-RUN poetry config virtualenvs.create false --local && poetry install
+RUN poetry install
 
 EXPOSE 80
 

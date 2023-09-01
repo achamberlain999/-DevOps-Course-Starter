@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: docker build --target test --tag todo-app:test .
-    - run: docker run --name tasko-scan --entrypoint 'poetry run safety check' todo-app:test
+    - run: docker run --entrypoint poetry todo-app:test run safety check
 
   docker-build-and-deploy:
     name: Build & deploy production docker image
