@@ -9,3 +9,9 @@
 ```shell
 curl -dH -X POST "https://\$<deployment_username>:<deployment_password>@<webapp_name>.scm.azurewebsites.net/docker/hook"
 ```
+
+## From the pipeline
+
+The production container will be automatically pushed to Docker registry and the Azure App service restarted on all merges to main.
+
+If you want to run the deploy steps on a non-main branch, start your commit message with `force-deploy`.

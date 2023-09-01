@@ -1,6 +1,7 @@
 class HomepageViewModel:
-    def __init__(self, items):
+    def __init__(self, items, environment):
         self._items = items
+        self.environment = environment
 
     @property
     def items(self):

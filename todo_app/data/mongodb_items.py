@@ -6,12 +6,11 @@ class ItemProvider:
         self._client = client
     
     def get_items(self):
-        trello_items = self._client.get_trello_lists_with_cards()
+        mongodb_items = self._client.get_all_tasks()
         items = []
         
-        for list in trello_items:
-            for card in list['cards']:
-                items.append(Item.from_trello_card(card, list))
+        for card in mongodb_items:
+            items.append(Item.from_mongodb_entry(card))
 
         return items
 

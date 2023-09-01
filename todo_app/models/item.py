@@ -4,7 +4,7 @@ class Item:
         self.name = name
         self.description = description
         self.complete = complete
-
+    
     @classmethod
-    def from_trello_card(cls, card, list):
-        return cls(card['id'], card['name'], card['desc'], list['name'] == 'Done')
+    def from_mongodb_entry(cls, card):
+        return cls(card['_id'], card['name'], card['desc'], card['list'] == 'Done')

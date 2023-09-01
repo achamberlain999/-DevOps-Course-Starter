@@ -1,10 +1,14 @@
 #!/bin/sh
 
 # A script to allow for easy local verification that docker containers are still working
-# TODO: Prevent it failing if a container with the same name already exists
 
 DOCKER_ENVIRONMENT=$1
 SHOULD_RUN=$2
+
+# Colours
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
 
 if [ $DOCKER_ENVIRONMENT = "prod" ]
 then
@@ -13,7 +17,7 @@ then
     if [ $SHOULD_RUN = "true" ]
     then
         echo "Running the production docker image..."
-        docker run --env-file .env -p 127.0.0.1:8000:80/tcp --name tasko-prod -d todo-app:prod
+        docker run --env-file .env -p 127.0.0.1:8000:80/tcp --name tasko-prod -d todo-app:prod || echo "${YELLOW}Make sure you have deleted the currently running prod container...${NC}"
     fi
 fi
 
@@ -24,6 +28,7 @@ then
     if [ $SHOULD_RUN = "true" ]
     then
         echo "Running the development docker image..."
+        docker stop tasko-dev && docker rm tasko-dev
         # Note we develop against port 8001 so we can have production and development running simultaneously
         docker run --env-file .env -p 127.0.0.1:8001:80/tcp --name tasko-dev -d --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev
     fi
@@ -36,6 +41,7 @@ then
     if [ $SHOULD_RUN = "true" ]
     then
         echo "Running the test docker image..."
+        docker stop tasko-test && docker rm tasko-test
         docker run --name tasko-test todo-app:test
     fi
 fi

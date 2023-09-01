@@ -6,12 +6,6 @@
     - name: secret_key
       prompt: App secret key
 
-    - name: trello_api_key
-      prompt: Trello API key
-
-    - name: trello_api_token
-      prompt: Trello API token
-
   tasks:
     - name: Install git
       ansible.builtin.yum:
