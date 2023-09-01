@@ -119,3 +119,7 @@ Tasko uses Docker to containerise our web app for easy deployment to the cloud. 
 ## Manual Release
 
 For information on how to do a manual release to Azure Web App, see [Manual Release](docs/release_process.md).
+
+## Security
+
+For information of the security of the application, see [Security](docs/security.md).
