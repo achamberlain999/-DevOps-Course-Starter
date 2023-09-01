@@ -12,17 +12,39 @@ def client():
         with test_app.test_client() as client:
             yield client
 
+@pytest.fixture
+def mock_db():
+    yield pymongo.MongoClient("mongodb://fakemongo.com")['test-tasko-database']
+
 class TestClient:
-    def test_index_pages(self, client):
-        tasks = pymongo.MongoClient("mongodb://fakemongo.com")['test-tasko-database'].tasks
+    def test_index_page__with_no_cards(self, client):
+        html = client.get('/').data.decode()
+
+        assert "Time to start adding some tasks!" in html
+
+    def test_index_page__with_todo_card_and_none_completed(self, client, mock_db):
+        tasks = mock_db.tasks
         tasks.insert_one({
-            'name': 'Test card',
+            'name': 'Todo card',
             'desc': 'Description',
             'list': 'To do'
         })
-        response = client.get('/')
+        html = client.get('/').data.decode()
 
-        assert "Test card" in response.data.decode()
+        assert "Todo card" in html
+        assert "Looks like you've got some work to do. Better knuckle down" in html
+
+    def test_index_page__with_completed_card_and_none_to_do(self, client, mock_db):
+        tasks = mock_db.tasks
+        tasks.insert_one({
+            'name': 'Completed card',
+            'desc': 'Description',
+            'list': 'Done'
+        })
+        html = client.get('/').data.decode()
+        
+        assert "Completed card" in html
+        assert "Hurrah! Looks like it's pub time" in html
 
 class StubResponse():
     def __init__(self, fake_response_data):
