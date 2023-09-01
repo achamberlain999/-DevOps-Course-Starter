@@ -1,18 +1,25 @@
 import os
 import pytest
 import requests
+import pymongo
 from todo_app import app
+import mongomock
 
 @pytest.fixture
 def client():
-    test_app = app.create_app('test')
-
-    with test_app.test_client() as client:
-        yield client
+    with mongomock.patch(servers=(('fakemongo.com', 27017),)):
+        test_app = app.create_app('test')
+        with test_app.test_client() as client:
+            yield client
 
 class TestClient:
-    def test_index_pages(self, monkeypatch, client):
-        monkeypatch.setattr(requests, 'get', get_lists_stub)
+    def test_index_pages(self, client):
+        tasks = pymongo.MongoClient("mongodb://fakemongo.com")['test-tasko-database'].tasks
+        tasks.insert_one({
+            'name': 'Test card',
+            'desc': 'Description',
+            'list': 'To do'
+        })
         response = client.get('/')
 
         assert "Test card" in response.data.decode()
