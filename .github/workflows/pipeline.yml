@@ -18,6 +18,14 @@ jobs:
     - run: docker build --target test --tag todo-app:test .
     - run: docker run --name tasko-test todo-app:test
 
+  scan:
+    name: Scan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: docker build --target test --tag todo-app:test .
+    - run: docker run --name tasko-scan --entrypoint 'poetry run safety check' todo-app:test
+
   docker-build-and-deploy:
     name: Build & deploy production docker image
     needs: test
